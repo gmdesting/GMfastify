@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "fastify": "^1.2.0",
+    "fastify-plugin": "^0.2.2",
+    "http": "^0.0.0",
+    "mongodb": "^3.0.5",
+    "point-of-view": "^1.0.0"
+  }
+}
