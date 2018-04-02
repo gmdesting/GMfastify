@@ -30,7 +30,7 @@ var downloadImg = (function () {
     var load = function (url, cbload) {
         var i = 0;
         // 本地存储目录
-        var dir = './comic/' + manhuaname +'/'+manhuatitlelist[page];
+        var dir = './manhua/comic/' + manhuaname +'/'+manhuatitlelist[page];
 
         // 创建目录
         mkdirp(dir, function (err) {
@@ -51,8 +51,7 @@ var downloadImg = (function () {
                 var $ = cheerio.load(body);
                 var evalstring = $('head')[0].children[9].children[0].data
                 var end = evalstring.search(/   ;/i)
-                var sss = eval(evalstring.substring(70,end))
-                console.log(sss)
+                var sss = eval(evalstring.substring(67,end))
                 var arrpic = eval(pages)
                 // 每次只执行一个异步操作
                 async.mapSeries(arrpic, function (item, callback) {
