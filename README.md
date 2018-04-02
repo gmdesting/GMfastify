@@ -1,4 +1,5 @@
 # fastify学习
  采用的是fastify+mongodb
- 先配置数据库
- 然后运行 app.js
+ 配置数据库
+ 1.运行mongodb
+ 2.运行 app.js
