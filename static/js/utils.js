@@ -1,18 +1,20 @@
 //封装工具类
-(function(window,document){
-    window.utils ={
+(function (window, document) {
+    window.utils = {
         // axios的get请求
-        axiosGet:function(url){
-            let re = new Promise(function(resolve,reject){
-                axios.get(url)
-                    .then(function(res){
+        axiosGet: function (url, data) {
+            let re = new Promise(function (resolve, reject) {
+                axios.get(url, {
+                        params: data
+                    })
+                    .then(function (res) {
                         resolve(res.data)
                     })
-                    .catch(function(err){
+                    .catch(function (err) {
                         reject(err)
                     })
             })
             return re
         }
     }
-})(window,document)
+})(window, document)

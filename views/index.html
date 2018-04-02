@@ -1,22 +1,124 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <title>Page Title</title>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
     <script src="../static/js/utils.js"></script>
+    <style>
+        .search{
+            width: 260px;
+            height: 35px;
+            border: 1px solid #2c6fff;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        #sousuo{
+            float: right;
+            width: 55px;
+            line-height: 35px;
+            text-align: center;
+            background: blue;
+            color: white
+        }
+        .name{
+            height: 33px;
+            font-size: 16px;
+            border: none;
+            outline:none;
+            margin-left: 5px;
+        }
+        .ssjg{
+            float: left;
+        }
+        .ssjg img{
+            width: 100px;
+            height: 137.5px;
+        }
+        .ssjg li{
+            float: left;
+            margin-left: 20px
+        }
+        .page{
+            clear: both;
+            text-align: center
+        }
+        .page p{
+            width: 80px;
+            display: inline-block;
+        }
+    </style>
 </head>
+
 <body>
-    <h1 class="title">我的第一个标题</h1>
-    <p>我的第一个段落</p>
+    <h3 class="title">漫画名称</h3>
+    <div class="search">
+        <div id="sousuo">搜索</div>
+        <input type="text" class="name">
+    </div>
+    <!-- 搜索结果 -->
+    <h3>搜索结果</h3>
+    <ul class="ssjg"></ul>
+    <!-- 页数 -->
+    <div class="page">
+        <p class="pagecount"></p>
+        <p class="pageno"></p>
+        <p class="searchcount"></p>
+    </div>
+    
 </body>
 <script>
-    (function(){
-        utils.axiosGet('/search/1').then(r=>{
-            console.log(r)
-            // $('.title').append(r)
+    (function () {
+        $('#sousuo').click(function () {
+            
+            let params = {
+                url: 'http://sacg.dmzj.com/dh/index.php',
+                c: 'search',
+                m: 'dosearch',
+                s: $('.name').val(),
+                p: '1',
+                callback: 'dealResult'
+            }
+            utils.axiosGet('https://bird.ioliu.cn/v2', params).then(r => {
+                // 清空上次搜索数据
+                $('.ssjg').empty()
+                $('.pagecount').empty()
+                $('.pageno').empty()
+                $('.searchcount').empty()
+                // 先去掉空格后去掉换行
+                chuli = r.replace(/\s+/g, "").replace(/[\\\r\\\n]/g, "")
+                // 选择输出class="scout_aim_titletext"的标签内容
+                cl = chuli.match(/<aclass="scout_anim_titletext"+[^>]*>/g)
+                // 获取数组里的title中的值，然后转义输出
+                // 获取漫画的名称
+                // 获取漫画的图片
+                pic = chuli.match(/\/image+[^>]*"c/g)
+                for (let i in cl) {
+                    data = eval(cl[i].match(/"(?<=").*?(?=")"/g)[1].replace(/u/g, '\\u'))
+                    picitem = pic[i].replace(/"c/," ")
+                    $('.ssjg').append('<li> <img src=' + "http://donghua.dmzj.com"+picitem + '/><p>'+data+'</p></li>')
+                    // $('.ssjg').append('<li>' + data + '</li>')
+                }
+                
+                // // 处理下图片数据
+                // for(let a in pic){
+                //     picitem = pic[a].replace(/"c/," ")
+                //     $('.ssjg').append('<li> <img src=' + "http://donghua.dmzj.com"+picitem + '/></li>')
+                // }
+                // 获取当前页数，总共页面，总共数量 
+                // 数据重新处理，根据,"进行切割
+                let splitlist = chuli.split(/,"/)
+                let seach_cout = splitlist[2].replace(/[^0-9]/ig,"")
+                let page_cout = splitlist[3].replace(/[^0-9]/ig,"")
+                let page_o = splitlist[4].replace(/[^0-9]/ig,"")
+                $('.searchcount').append('搜索到'+seach_cout+'条')
+                $('.pagecount').append('共'+page_cout+'页')
+                $('.pageno').append('当前第'+page_o+'页')
+            })
         })
     })()
 </script>
+
 </html>

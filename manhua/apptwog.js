@@ -72,7 +72,7 @@ var downloadImg = (function () {
         download:download
     }
 }())
- 
+
 // 选择漫画的首页url
 var manhuaurl = 'https://manhua.dmzj.com/migongfan/'
 // 漫画名称
@@ -81,6 +81,7 @@ var manhuaname = ''
 var chapterlist = []
 // 漫画章节title
 var manhuatitlelist = []
+
 
 request(manhuaurl, function (error, response, body) {
     if (!error && response.statusCode == 200) {

@@ -1,6 +1,8 @@
 {
   "scripts": {
-    "down":"node manhua/apptwog.js"
+    "down":"node manhua/apptwog.js",
+    "test":"node manhua/test.js"
+    
   },
   "dependencies": {
     "fastify": "^1.2.0",
